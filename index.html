@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Generador de videos de códigos</title>
+</head>
+<body data-auth="loading">
+<div id="login">
+  <form id="loginForm">
+    <h1>Generador de videos de códigos</h1>
+    <p class="hint">Entrá con tu cuenta para abrir tus proyectos.</p>
+    <label>Correo<input type="email" id="email" autocomplete="username" required></label>
+    <label>Contraseña<input type="password" id="password" autocomplete="current-password" required></label>
+    <p id="loginErr" class="err"></p>
+    <button type="submit">Entrar</button>
+  </form>
+</div>
+<div class="app">
+  <aside class="panel">
+    <h1>Generador de videos de códigos</h1>
+    <div class="row between"><span id="who" class="name"></span><button id="logout" class="ghost">Cerrar sesión</button></div>
+
+    <section>
+      <h2>Proyecto</h2>
+      <p class="hint">Guardá para no perder códigos, imágenes ni ajustes. Se guardan en tu cuenta.</p>
+      <label>Proyectos guardados<select id="projSel"><option value="">Nuevo proyecto</option></select></label>
+      <label>Nombre<input type="text" id="projName" placeholder="Ej: Lluvia de dinero"></label>
+      <div class="row"><button id="save">Guardar</button><button id="projDel" class="ghost">Eliminar</button></div>
+      <p id="projMsg" class="hint"></p>
+    </section>
+
+    <section>
+      <div class="head"><h2>Códigos</h2><span id="codeCount">0 / 200</span></div>
+      <p class="hint">Un código por casilla, de 1 a 8 caracteres. Si pegás una lista separada por espacios o saltos de línea, se reparte sola desde la casilla donde pegaste.</p>
+      <label>Pegar lista desde Excel
+        <textarea id="paste" rows="3" placeholder="Copiá los códigos en Excel y pegalos acá. Se cargan solos en las casillas."></textarea>
+      </label>
+      <p id="pasteMsg" class="hint"></p>
+      <div id="codes" class="codes"></div>
+      <button id="clearCodes" class="ghost">Borrar todos los códigos</button>
+    </section>
+
+    <section>
+      <h2>Fondo (capa 0)</h2>
+      <p class="hint">Imagen o video. Siempre queda detrás de todo.</p>
+      <div class="row">
+        <label class="btn">Elegir fondo<input type="file" id="bgFile" accept="image/*,video/*" hidden></label>
+        <button id="bgClear" class="ghost">Quitar fondo</button>
+        <span id="bgName" class="name"></span>
+      </div>
+    </section>
+
+    <section>
+      <div class="head"><h2>Imágenes (capa 1)</h2><span id="layerCount">0 / 10</span></div>
+      <p class="hint">Arrastrá la imagen en la vista previa para moverla. Con la rueda del mouse cambia el tamaño.</p>
+      <label class="btn">Agregar imágenes<input type="file" id="layerFile" accept="image/*" multiple hidden></label>
+      <div id="layers"></div>
+    </section>
+
+    <section>
+      <h2>Imagen detrás del código</h2>
+      <p class="hint">Va debajo del texto y encima de las demás imágenes. Podés arrastrarla en la vista previa.</p>
+      <div class="row">
+        <label class="btn">Elegir imagen<input type="file" id="boxFile" accept="image/*" hidden></label>
+        <button id="boxDefault" class="ghost">Usar marco por defecto</button>
+        <button id="boxClear" class="ghost">Quitar</button>
+      </div>
+      <div id="boxCtl" hidden style="margin-top:10px">
+        <label>Tamaño<input type="range" id="bW" min="5" max="200" step="0.5" value="80"></label>
+        <label>Horizontal<input type="range" id="bX" min="0" max="100" step="0.5" value="50"></label>
+        <label>Vertical<input type="range" id="bY" min="0" max="100" step="0.5" value="55"></label>
+      </div>
+    </section>
+
+    <section>
+      <h2>Texto del código</h2>
+      <label>Tamaño<input type="range" id="tSize" min="4" max="40" step="0.5" value="18"></label>
+      <label>Horizontal<input type="range" id="tX" min="0" max="100" step="0.5" value="50"></label>
+      <label>Vertical<input type="range" id="tY" min="0" max="100" step="0.5" value="55"></label>
+      <label>Color<input type="color" id="tColor" value="#ffffff"></label>
+    </section>
+
+    <section>
+      <h2>Video</h2>
+      <div class="grid2">
+        <label>Duración (segundos)<input type="number" id="duration" min="1" max="300" value="8"></label>
+        <label>Orden<select id="order"><option value="random">Aleatorio</option><option value="seq">En orden (1, 2, 3...)</option></select></label>
+        <label>Resolución<select id="res"><option value="1080x1920">1080 x 1920</option><option value="720x1280">720 x 1280</option></select></label>
+      </div>
+      <p id="rate" class="hint"></p>
+    </section>
+  </aside>
+
+  <main class="stage">
+    <canvas id="stage" width="1080" height="1920"></canvas>
+    <div class="row">
+      <button id="reset" class="ghost">Reiniciar vista previa</button>
+      <button id="generate">Generar video</button>
+    </div>
+    <p id="status">Cargá tus códigos y generá el video. Mantené esta pestaña visible mientras se graba.</p>
+  </main>
+</div>
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>
